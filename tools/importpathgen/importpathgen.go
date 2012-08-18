@@ -2,9 +2,12 @@ package main
 
 import (
 	"encoding/json"
+	"html/template"
 	"log"
 	"net/http"
 	"net/url"
+	"os"
+	"path/filepath"
 	"strings"
 )
 
@@ -53,6 +56,47 @@ func AllApplets(c *http.Client) []Applet {
 	return applets
 }
 
+func generateAppletIndexFiles(applets []Applet) {
+	indextpl := template.Must(template.ParseFiles("tools/importpathgen/applet-index.html.template"))
+	e := os.RemoveAll("applet")
+	if e != nil {
+		log.Fatalf("Could not remove \"applet\": %s", e)
+	}
+	for _, applet := range applets {
+		func() {
+			path := filepath.Join("applet", applet.Name)
+			e := os.MkdirAll(path, os.FileMode(0755))
+			if e != nil {
+				log.Printf("Could not create \"%s\": %s", path, e)
+				return
+			}
+
+			f, e := os.Create(filepath.Join(path, "index.html"))
+			if e != nil {
+				log.Printf("Could not create index.html in \"%s\": %s", path, e)
+				return
+			}
+			defer f.Close()
+
+			indextpl.Execute(f, applet)
+		}()
+	}
+}
+
+func generateMainIndexFiles(applets []Applet) {
+	indextpl := template.Must(template.ParseFiles("tools/importpathgen/main-index.html.template"))
+	f, e := os.Create("index.html")
+	if e != nil {
+		log.Printf("Could not create index.html in \"index.html\": %s", e)
+		return
+	}
+	defer f.Close()
+
+	indextpl.Execute(f, applets)
+}
+
 func main() {
-	log.Printf("Repos: %#v", AllApplets(http.DefaultClient))
+	applets := AllApplets(http.DefaultClient)
+	generateAppletIndexFiles(applets)
+	generateMainIndexFiles(applets)
 }
