@@ -1,7 +1,8 @@
 <!doctype html>
 <html>
 <head>
-	<meta name="go-import" content="gobox.me/applet/ls git https://github.com/gobox/applet-ls" />
+	{{range .}}<meta name="go-import" content="gobox.me/applet/{{.Name}} git {{.URL}}" />
+	{{end}}
 	<style>
 		body {
 			padding-top: 50px;
