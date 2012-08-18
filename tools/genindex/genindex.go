@@ -57,7 +57,7 @@ func AllApplets(c *http.Client) []Applet {
 }
 
 func generateAppletIndexFiles(applets []Applet) {
-	indextpl := template.Must(template.ParseFiles("tools/importpathgen/applet-index.html.template"))
+	indextpl := template.Must(template.ParseFiles("tools/genindex/applet-index.html.template"))
 	e := os.RemoveAll("applet")
 	if e != nil {
 		log.Fatalf("Could not remove \"applet\": %s", e)
@@ -84,7 +84,7 @@ func generateAppletIndexFiles(applets []Applet) {
 }
 
 func generateMainIndexFiles(applets []Applet) {
-	indextpl := template.Must(template.ParseFiles("tools/importpathgen/main-index.html.template"))
+	indextpl := template.Must(template.ParseFiles("tools/genindex/main-index.html.template"))
 	f, e := os.Create("index.html")
 	if e != nil {
 		log.Printf("Could not create index.html in \"index.html\": %s", e)
