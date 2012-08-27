@@ -1,6 +1,7 @@
 <!doctype html>
 <html>
 <head>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, max-scale=1.0">
 	{{range .}}<meta name="go-import" content="gobox.me/applet/{{.Name}} git {{.URL}}" />
 	{{end}}
 	<style>
