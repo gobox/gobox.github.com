@@ -5,3 +5,5 @@ Besides the usual self-adolation it contains HTML headers to enable the alternat
 by the provided `genindex` tool:
 
     go run tools/genindex/genindex.go
+---
+Version 0.3.1
