@@ -26,5 +26,9 @@
 	<p>It serves the purpose of showing this link to <a href="http://github.com/surma/gobox">GoBox</a>.</p>
 
 	<p>It also makes something like <code>import "gobox.me/applet/ls"</code> work.</p>
+
+	<p><img src="imgs/minegopher.png" /></p>
+
+	<p><small>Homepage Version 0.3</small></p>
 </body>
 </html>
