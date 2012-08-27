@@ -6,7 +6,7 @@
 	<meta name="go-import" content="gobox.me/applet/echo git https://github.com/gobox/applet-echo" />
 	<meta name="go-import" content="gobox.me/applet/find git https://github.com/gobox/applet-find" />
 	<meta name="go-import" content="gobox.me/applet/httpd git https://github.com/gobox/applet-httpd" />
-	
+
 	<style>
 		body {
 			padding-top: 50px;
@@ -23,6 +23,7 @@
 			border-radius: 5px;
 		}
 	</style>
+	<script src="js/modernizr.js"></script>
 </head>
 <body>
 	<p>This is merely a placeholder for a homepage.</p>
@@ -33,6 +34,52 @@
 
 	<p><img src="imgs/minegopher.png" /></p>
 
-	<p><small>Homepage Version 0.3.1</small></p>
+	<p><small>Homepage Version 0.3.1-7</small></p>
+	<script src="js/three.js"></script>
+	<script>
+	(function init() {
+		var width = 250, height = 250;
+
+		var camera = new THREE.PerspectiveCamera(45, width/height, 1, 10000);
+		camera.position.z = 425;
+		camera.position.y = 150;
+		camera.lookAt(new THREE.Vector3(0, 0, 0));
+
+		var scene = new THREE.Scene();
+
+		var geometry = new THREE.CubeGeometry(200, 200, 200);
+		var material = new THREE.MeshBasicMaterial({
+			color: 0xff0000,
+			wireframe: false,
+		});
+
+		var mesh = new THREE.Mesh(geometry, material);
+		scene.add(mesh);
+
+		var renderer;
+		var ctx = document.createElement('canvas');
+		ctx = !!ctx.getContext('webgl') || !!ctx.getContext('experimental-webgl');
+		if (Modernizr.webgl && ctx) {
+			document.write('webgl<br>');
+			renderer = new THREE.WebGLRenderer();
+		} else if (Modernizr.canvas) {
+			document.write('canvas<br>');
+			renderer = new THREE.CanvasRenderer();
+		} else {
+			console.log('No compatible rendering technology found');
+		}
+		renderer.setSize(width, height);
+
+		document.body.appendChild(renderer.domElement);
+		var last = Date.now();
+		window.requestAnimationFrame(function render(now) {
+			var delta = (last - now)/1000; // SI units ftw
+			last = now;
+			renderer.render(scene, camera)
+			mesh.rotation.y += 2*Math.PI * delta / 10;
+			window.requestAnimationFrame(render);
+		});
+	})();
+    </script>
 </body>
 </html>
